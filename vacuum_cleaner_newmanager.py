@@ -19,7 +19,7 @@ def backward_state(n):
 
 def spin_state(n):
     HAL.setW(n)
-    HAL.setV(1)
+    HAL.setV(0.7)
     print("El robot gira.")
 
 
@@ -31,6 +31,7 @@ def spiral_state(n, m):
 
 def contador_choque():
     tiempo_choque = time.time()
+    spin_state(0)
     backward_state(0.5)
     controlador = True
 
@@ -50,13 +51,13 @@ def contador_giro(n):
     while controlador:
         tiempo_actualizado = time.time()
         if tiempo_actualizado - tiempo_giro >= 1:
-            forward_state(1)
+            forward_state(2)
             controlador = False
         else:
             spin_state(n)
 
 
-forward_state(1)
+forward_state(2)
 
 while True:
     new_time = time.time()
@@ -67,13 +68,13 @@ while True:
         print("Lanzar dados")
         if dado <= 33:
             vel_angular = random.uniform(0, 1.5)
-            vel_lineal = vel_angular + 0.4
+            vel_lineal = vel_angular + 1
             spiral_state(vel_lineal, vel_angular)
 
     if HAL.getBumperData().state == 1:
         if HAL.getBumperData().bumper == 0:
             contador_choque()
-            contador_giro(2.5)
+            contador_giro(1.5)
             print("Choque a la izquierda")
 
         elif HAL.getBumperData().bumper == 2:
@@ -86,10 +87,9 @@ while True:
             contador_choque()
             lado = random.randint(1, 2)
             if lado == 1:
-                contador_giro(-1.2)
+                contador_giro(-0.7)
             else:
-                contador_giro(1.4)
-
+                contador_giro(0.6)
 
     else:
         print("no choca")
