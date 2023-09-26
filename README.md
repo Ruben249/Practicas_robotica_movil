@@ -8,3 +8,5 @@ I continued developing the code, and managed to make it move randomly a few time
 I perfected it a little, making it turn more to one side than the other and making it so that if it collided in the center it would turn randomly to one side or the other, as seen in this photo ![Foto 3](https://github.com/Ruben249/practicas_robotica_movil/assets/102288264/ee905959-6861-40f6-9f34-05bb06b9a556)
 In the next photo we see how the robot has greater self-sufficiency to get out of small holes and places where it was previously trapped
 ![Foto 4](https://github.com/Ruben249/practicas_robotica_movil/assets/102288264/0730b7de-f180-458c-863a-4523695ecb29)
+Finally, I thought that in order to get out of corners, the robot would have to make random turns, so I decided that every time it turned it would do it differently, and this is the result: 
+![Foto 5](https://github.com/Ruben249/practicas_robotica_movil/assets/102288264/e7d6d708-e3a8-446f-94de-f01458674561)
