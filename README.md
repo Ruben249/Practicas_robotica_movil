@@ -10,3 +10,7 @@ In the next photo we see how the robot has greater self-sufficiency to get out o
 ![Foto 4](https://github.com/Ruben249/practicas_robotica_movil/assets/102288264/0730b7de-f180-458c-863a-4523695ecb29)
 Finally, I thought that in order to get out of corners, the robot would have to make random turns, so I decided that every time it turned it would do it differently, and this is the result: 
 ![Foto 5](https://github.com/Ruben249/practicas_robotica_movil/assets/102288264/e7d6d708-e3a8-446f-94de-f01458674561)
+
+Here is a sped-up X3 video where we briefly see how the robot behaves.
+https://github.com/Ruben249/practicas_robotica_movil/assets/102288264/ba953b52-4f57-4145-97a5-65e79850400a
+
