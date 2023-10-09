@@ -1,12 +1,11 @@
 # Mobile_Robotics_Practices
 
-##Index
-1.[Practice 1](#practice-1)
-    1.1 [Start](#start)
-    1.2 [Development](#development)
-2.[Practice 2](#practice-1)
-    2.1 [Start](#start)
-    2.2 [Development](#development)
+## Index
+
+-[Start](#start)
+
+-[Development](#development)
+
 ### Practice 1
 #### Start
 The first day we started learning the basic knowledge of the robot and its sensors. We learned how the laser works, how to use the information it gives us, how to tell if it has crashed, how to make it move forward and backward, and how to make it spin.
@@ -21,6 +20,3 @@ Finally, I thought that in order to get out of corners, the robot would have to 
 
 Here is a sped-up X3 video where we briefly see how the robot behaves.
 https://github.com/Ruben249/practicas_robotica_movil/assets/102288264/ba953b52-4f57-4145-97a5-65e79850400a
-
-### Practice 2
-#### Start
