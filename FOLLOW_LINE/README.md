@@ -7,8 +7,10 @@
 -[Development](#development)
 ### Practice 2
 #### Start
-The first day we started learning the basic knowledge of the robot and its sensors. We learned how the laser works, how to use the information it gives us, how to tell if it has crashed, how to make it move forward and backward, and how to make it spin.
-In this photo ![Foto 1](https://github.com/Ruben249/practicas_robotica_movil/assets/102288264/b12b9081-f462-4a73-9007-8312dd1ab5c2) there is the first code in which we have established the basic structure with which the robot will work.
+At the beginning I was testing how to use the commands provided in the robot API.
+Thanks to the advice provided by the teachers, we discovered that we should start by obtaining the image of the robot, converting all the reds to a single red, while the rest of the colors should be converted to black. In the following image we see an example of obtaining the photo.
+
+Then I decided to add a small blue dot in the middle of what the robot saw. To do this I simply had to divide the width and length of the image by 2. 
 #### Development
 I continued developing the code, and managed to make it move randomly a few times, but I ran into the problem that it got stuck in the corner, as seen in this photo ![Foto 2](https://github.com/Ruben249/practicas_robotica_movil/assets/102288264/f8d04b4a-32e3-41e9-8d9b-d2ca34269ef1)
 I perfected it a little, making it turn more to one side than the other and making it so that if it collided in the center it would turn randomly to one side or the other, as seen in this photo ![Foto 3](https://github.com/Ruben249/practicas_robotica_movil/assets/102288264/ee905959-6861-40f6-9f34-05bb06b9a556)
