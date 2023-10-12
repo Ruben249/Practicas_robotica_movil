@@ -1,23 +1,72 @@
 # Mobile_Robotics_Practices
+## FollowLine
+![formula1_2](https://github.com/Ruben249/practicas_robotica_movil/assets/102288264/72c70306-f304-45d8-b8c0-ae663498c6cb)
 
-##Index
+### Index
 
 -[Start](#start)
 
 -[Development](#development)
-### Practice 2
+
 #### Start
 At the beginning I was testing how to use the commands provided in the robot API.
-Thanks to the advice provided by the teachers, we discovered that we should start by obtaining the image of the robot, converting all the reds to a single red, while the rest of the colors should be converted to black. In the following image we see an example of obtaining the photo.
+Thanks to the advice provided by the teachers, we discovered that we should start by obtaining the image of the robot, converting all the reds to a single red, while the rest of the colors should be converted to black. In the following images we see an example of obtaining the photo.
+Natural image
+![Image1](https://github.com/Ruben249/practicas_robotica_movil/assets/102288264/fcb06fba-9b7c-435b-a7cf-f77bf3180b3a)
+
+Black and red image 
+![Image2](https://github.com/Ruben249/practicas_robotica_movil/assets/102288264/51632b58-ceb5-4d66-b55a-bfca80a0a929)
 
 Then I decided to add a small blue dot in the middle of what the robot saw. To do this I simply had to divide the width and length of the image by 2. 
+![Image3](https://github.com/Ruben249/practicas_robotica_movil/assets/102288264/095b31ae-c7c4-48e9-b17c-da82af9bdf45)
+
 #### Development
-I continued developing the code, and managed to make it move randomly a few times, but I ran into the problem that it got stuck in the corner, as seen in this photo ![Foto 2](https://github.com/Ruben249/practicas_robotica_movil/assets/102288264/f8d04b4a-32e3-41e9-8d9b-d2ca34269ef1)
-I perfected it a little, making it turn more to one side than the other and making it so that if it collided in the center it would turn randomly to one side or the other, as seen in this photo ![Foto 3](https://github.com/Ruben249/practicas_robotica_movil/assets/102288264/ee905959-6861-40f6-9f34-05bb06b9a556)
-In the next photo we see how the robot has greater self-sufficiency to get out of small holes and places where it was previously trapped
-![Foto 4](https://github.com/Ruben249/practicas_robotica_movil/assets/102288264/0730b7de-f180-458c-863a-4523695ecb29)
-Finally, I thought that in order to get out of corners, the robot would have to make random turns, so I decided that every time it turned it would do it differently, and this is the result: 
-![Foto 5](https://github.com/Ruben249/practicas_robotica_movil/assets/102288264/e7d6d708-e3a8-446f-94de-f01458674561)
+
+I frequently encountered the problem that as soon as I started the simulation the car began to oscillate, until I realized that it was a small error in the camera as soon as it started, so I decided to set a time.sleep of 1 sec so that I had time to capture the image
+
+```python
+# Function for speed PID
+def speed_PID(speed_error):
+    prev_speed_error2 = prev_speed_error
+    accum_speed_error2 = accum_speed_error
+    p = speed_error
+    d = speed_error - prev_speed_error2
+    i = accum_speed_error2
+    return kp * p + ki * i + kd * d
+
+# With this time.sleep we make the car take a second to start and thus avoid errors with the camera
+time.sleep(1)
+
+while True:
+    # Get the image from the camera
+    image = HAL.getImage()
+```
+
+To solve this exercise it is necessary to use the PID controllers explained in class. I have decided to use one for speed and another to be able to obtain how much it should rotate.
+
+![ControlSystems](https://github.com/Ruben249/practicas_robotica_movil/assets/102288264/8ad3a57e-eafe-42f5-a874-caeef1a48ee8)
+![TypesofControlSystems](https://github.com/Ruben249/practicas_robotica_movil/assets/102288264/2df9e2e4-403e-4c13-be16-a66fde0dbfd5)
+
+Another recurring problem was that I couldn't find the kp, ki, kd that would allow me to find the right and necessary speed for the curves, so I decided to put some standard ones and modify the speeds later.
+
+```python
+# Calculate the error for linear and angular control
+        speed_error = x_c - weight / 2
+
+        # To maintain turning based on linear error
+        err_angular = speed_error  
+
+        # Detect if it's a curve or a straight line
+        if abs(speed_error) > 1:
+            # PID control for curves
+            speed_control = speed_PID(0)  # We put 0 to keep constant linear speed in curves
+            angular_control = angular_PID(err_angular)
+        else:
+            # PID control for straight lines
+            speed_control = speed_PID(speed_error)
+            angular_control = angular_PID(err_angular)
+```
 
 Here is a sped-up X3 video where we briefly see how the robot behaves.
 https://github.com/Ruben249/practicas_robotica_movil/assets/102288264/ba953b52-4f57-4145-97a5-65e79850400a
+
