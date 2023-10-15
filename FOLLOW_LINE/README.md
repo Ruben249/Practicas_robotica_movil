@@ -67,6 +67,7 @@ Another recurring problem was that I couldn't find the kp, ki, kd that would all
             angular_control = angular_PID(err_angular)
 ```
 
-Here is a sped-up X3 video where we briefly see how the robot behaves.
-https://github.com/Ruben249/practicas_robotica_movil/assets/102288264/ba953b52-4f57-4145-97a5-65e79850400a
+Here is a video where we briefly see how the car behaves.
+
+[FollowLine_Simple.webm](https://github.com/Ruben249/practicas_robotica_movil/assets/102288264/2c9a9c66-92af-472b-bf55-7fa6d0fcbe95)
 
