@@ -17,10 +17,18 @@ Natural image
 Black and red image 
 ![Image2](https://github.com/Ruben249/practicas_robotica_movil/assets/102288264/51632b58-ceb5-4d66-b55a-bfca80a0a929)
 
-Then I decided to add a small blue dot in the middle of what the robot saw. To do this I simply had to divide the width and length of the image by 2. 
+Then I decided to add a small blue dot in the middle of what the robot sees to help me do the calculations correctly, then I removed it. To do this I simply had to divide the width and length of the image by 2. 
 ![Image3](https://github.com/Ruben249/practicas_robotica_movil/assets/102288264/095b31ae-c7c4-48e9-b17c-da82af9bdf45)
 
 #### Development
+
+To solve the exercise it is necessary to implement at least one PID, so I have searched for information on how it is implemented exactly, and I have reached the following conclusion:
+
+prev_speed_error represents the speed error at the previous time instant.
+The cumulative sum of errors (integral, I) is used in the controller to correct accumulated errors over time.
+Speed error is the difference between the desired speed and the current speed of the system.
+The derivative part is used to predict how the error will change in the future and therefore helps to stabilize the system and reduce overshoot.
+i = accum_speed_error2: The accumulated sum of errors is stored in the variable i. The interal part (I) of the controller uses this value to correct errors accumulated over time.
 
 I frequently encountered the problem that as soon as I started the simulation the car began to oscillate, until I realized that it was a small error in the camera as soon as it started, so I decided to set a time.sleep of 1 sec so that I had time to capture the image
 
