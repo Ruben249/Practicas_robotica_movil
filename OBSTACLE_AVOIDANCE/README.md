@@ -50,20 +50,27 @@ GUI.showForces(carForce, obsForce, avgForce)
 Once I managed to convert the obstacles and walls into repulsive forces and the target into attractive force, I encountered another problem, and that is that sometimes when passing the obstacles it crashes anyway. That's why I decided to create some global variables to improve overtaking.
 
 ```python
-K_REPULSIVE = 0.05
+K_REPULSIVE = 0.04
+K_REPULSIVE_WALL = 0.3
 K_ATTRACTIVE = 0.3
-MIN_LINEAR_SPEED = 2.0
-MAX_LINEAR_SPEED = 8.0
-ERROR = 0.2
+MAX_SPEED = 5.0 
+MIN_LINEAR_SPEED = 3.0
+MAX_ANGULAR_SPEED = 2.0
+ERROR = 1
 TURN_RADIUS = 2.5
+
 ```
-K_REPULSIVE allows us to control the repulsive force, while K_ATTRACTIVE the attractive. TURN_RADIUS is the safe turning radius to avoid collisions. error is the margin of error to find the target
+K_REPULSIVE allows us to control the repulsive force of the obstacles. With k we control the repulsive force of the walls, while K_ATTRACTIVE conrol the attractive. TURN_RADIUS is the safe turning radius to avoid collisions. error is the margin of error to find the target
 
 With these variables I managed to make my car behave better, but it still randomly turned 180 degrees and went off the circuit.
 ![180º](https://github.com/Ruben249/practicas_robotica_movil/assets/102288264/7f0364a9-0264-4246-bcca-22ae4bc036d1)
 
+After a lot of testing, trying to limit the turn, increasing the attractive force, the repulsive force. I realized that the problem was that the target made it turn, since it was quite tilted, but the circuit made him go straight or turn in another direction. 
 
-Here is a video where we briefly see how the car behaves.
+To solve this problem I decided to create a K_REPULSIVE_WALL just as strong as the K_ATTRACTIVE, so that it does not crash into walls or pass through them.
 
-[FollowLine_Simple.webm](https://github.com/Ruben249/practicas_robotica_movil/assets/102288264/2c9a9c66-92af-472b-bf55-7fa6d0fcbe95)
+To make it work better, I decided that without losing reactivity, I would recover the position I had before turning to avoid an obstacle.
 
+Below we have a video in which we see how the car works using everything explained above:
+
+[Video_coche.webm](https://github.com/Ruben249/practicas_robotica_movil/assets/102288264/722e853e-570b-4ddb-8260-4dfe380adec4)
