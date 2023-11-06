@@ -60,7 +60,7 @@ ERROR = 1
 TURN_RADIUS = 2.5
 
 ```
-K_REPULSIVE allows us to control the repulsive force of the obstacles. With k we control the repulsive force of the walls, while K_ATTRACTIVE conrol the attractive. TURN_RADIUS is the safe turning radius to avoid collisions. error is the margin of error to find the target
+K_REPULSIVE allows us to control the repulsive force of the obstacles. With k we control the repulsive force of the walls, while K_ATTRACTIVE conrol the attractive. TURN_RADIUS is the safe turning radius to avoid collisions. ERROR is the margin of error to find the target
 
 With these variables I managed to make my car behave better, but it still randomly turned 180 degrees and went off the circuit.
 ![180º](https://github.com/Ruben249/practicas_robotica_movil/assets/102288264/7f0364a9-0264-4246-bcca-22ae4bc036d1)
@@ -70,6 +70,14 @@ After a lot of testing, trying to limit the turn, increasing the attractive forc
 To solve this problem I decided to create a K_REPULSIVE_WALL just as strong as the K_ATTRACTIVE, so that it does not crash into walls or pass through them.
 
 To make it work better, I decided that without losing reactivity, I would recover the position I had before turning to avoid an obstacle.
+
+These are the constants. 
+```python
+recovering = False
+recovery_counter = 0
+recovery_direction = 1 
+```
+With which we recover the position. If it has detected an obstacle and has turned, in the next 10 iterations of the loop it checks whether it has to continue recovering the position, having previously been aware of whether there is a wall or an obstacle.
 
 Below we have a video in which we see how the car works using everything explained above:
 
