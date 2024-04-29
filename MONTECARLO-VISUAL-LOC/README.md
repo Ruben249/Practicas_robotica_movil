@@ -1,7 +1,8 @@
 # Mobile_Robotics_Practices
 
-## Vacuum cleaner newmanager
-![vacuum_cleaner](https://github.com/Ruben249/practicas_robotica_movil/assets/102288264/2f00e657-48e3-4e0b-a042-d6e07fdba603)
+## Montecarlo Visual Loc
+
+![Title](https://github.com/Ruben249/practicas_robotica_movil/assets/102288264/89ebd672-319e-44b5-accf-150b0cf97873)
 
 
 ### Index
@@ -11,16 +12,101 @@
 
 
 #### Start
-The first day we started learning the basic knowledge of the robot and its sensors. We learned how the laser works, how to use the information it gives us, how to tell if it has crashed, how to make it move forward and backward, and how to make it spin.
-In this photo ![Foto 1](https://github.com/Ruben249/practicas_robotica_movil/assets/102288264/b12b9081-f462-4a73-9007-8312dd1ab5c2) there is the first code in which we have established the basic structure with which the robot will work.
+To carry out this practice, I have not used unibotics, but rather I have used python directly. For this they have provided us with the GUI and HAL libraries, in addition to the map and other files with code.
+![Screenshot from 2024-04-29 20-12-47](https://github.com/Ruben249/practicas_robotica_movil/assets/102288264/977f1416-91a8-4016-a2b8-25373c8b0d67)
 
 #### Development
-I continued developing the code, and managed to make it move randomly a few times, but I ran into the problem that it got stuck in the corner, as seen in this photo ![Foto 2](https://github.com/Ruben249/practicas_robotica_movil/assets/102288264/f8d04b4a-32e3-41e9-8d9b-d2ca34269ef1)
-I perfected it a little, making it turn more to one side than the other and making it so that if it collided in the center it would turn randomly to one side or the other, as seen in this photo ![Foto 3](https://github.com/Ruben249/practicas_robotica_movil/assets/102288264/ee905959-6861-40f6-9f34-05bb06b9a556)
-In the next photo we see how the robot has greater self-sufficiency to get out of small holes and places where it was previously trapped
-![Foto 4](https://github.com/Ruben249/practicas_robotica_movil/assets/102288264/0730b7de-f180-458c-863a-4523695ecb29)
-Finally, I thought that in order to get out of corners, the robot would have to make random turns, so I decided that every time it turned it would do it differently, and this is the result: 
-![Foto 5](https://github.com/Ruben249/practicas_robotica_movil/assets/102288264/e7d6d708-e3a8-446f-94de-f01458674561)
+Below I am going to explain the functions that have been provided to us and that I have used:
 
-Here is a sped-up X3 video where we briefly see how the robot behaves.
-https://github.com/Ruben249/practicas_robotica_movil/assets/102288264/ba953b52-4f57-4145-97a5-65e79850400a
+update_particle_pose(): Update the pose of a particle in the dt period and add a random Gaussian noise to the movement.
+```python
+def update_particle_pose(particle, dt):
+    yaw = particle[2]
+    # Estimate robot movement in dt according to the set velocities
+    dx = dt * LINEAR_VEL * np.cos(yaw)
+    dy = dt * LINEAR_VEL * np.sin(yaw)
+    dyaw = dt * ANGULAR_VEL
+    # Add this movement to the particle, with an extra Gaussian noise
+    particle[0] += dx + np.random.normal(0.0, 0.02)
+    particle[1] += dy + np.random.normal(0.0, 0.02)
+    particle[2] += dyaw + np.random.normal(0.0, 0.01)
+```
+
+propagate_particles(): Estimate the movement of the robot since the last update and propagate the pose of all particles according to this movement.
+```python
+def propagate_particles(particles):
+    global last_update_time
+    # Get the time diference since the last update
+    current_time = time.time()
+    dt = current_time - last_update_time
+    # Update all particles according to dt
+    for p in particles:
+        update_particle_pose(p, dt)
+    # Reset the update time
+    last_update_time = current_time
+    return particles
+```
+
+update_particles(): Update the pose of all particles with a given movement.
+```python
+def update_particles(particles, delta_x, delta_y, delta_theta):
+    for p in particles:
+        noise_x = random.gauss(delta_x, 0.1)
+        noise_y = random.gauss(delta_y, 0.1)
+        noise_theta = random.gauss(delta_theta, 0.05)
+
+        p[0] += noise_x
+        p[1] += noise_y
+        p[2] = (p[2] + noise_theta) % (2 * math.pi)
+```
+
+resample_particles(): Resample the set of particles given their weights.
+```python
+def resample_particles(old_particles, weights):
+    """ Resample the set of particles given their weights. """
+    # Allocate space for new particles
+    particles = np.zeros((N_PARTICLES, 3))
+
+    # Normalize the weights so the total sum is 1
+    weights /= np.sum(weights)
+    print(F"Normalized weights: {weights}")
+
+    # Get random indices from the list of particles
+    selected_idx = np.random.choice(N_PARTICLES, replace=True, size=N_PARTICLES, p=weights)
+    print(F"Selected indices:\n{selected_idx}")
+    print(F"Selected particles:\n{old_particles[selected_idx]}")
+    particles = old_particles[selected_idx]
+    return particles
+```
+
+initialize_particles(): Generate random particles in world coordinates (meters) X/Y values are constrained within the map limits.
+Yaw values are in the [0, 2*pi] range.
+```python
+def initialize_particles():
+    # Allocate space
+    particles = np.zeros((N_PARTICLES, 4))
+    # Get the limits from the MAP module
+    x_low, y_low = MAP.WORLD_LIMITS_LOW
+    x_high, y_high = MAP.WORLD_LIMITS_HIGH
+    # Distribute randomly in the map
+    particles = np.random.uniform(low=[x_low, y_low, 0.0],
+                                  high=[x_high, y_high, 2*np.pi],
+                                  size=(particles.shape[0], 3))
+    return particles
+```
+Finally, I have taken compute_particle_weights, that I am going to show below, and I have modified it so that the weights depend on the Euclidean distance between the particles and the robot:
+```python
+def compute_particle_weights(particles):
+    """ Compute the weight of each particle.
+        This function should generate a virtual laser measurement
+        for each particle and compute the error (difference)
+        between the virtual laser and the actual sensor measurement.
+
+        This example function just generates random weights.
+    """
+    weights = np.random.rand(particles.shape[0])
+    return weights
+```
+Here is a video where we briefly see how the robot behaves:
+
+[https://github.com/Ruben249/practicas_robotica_movil/assets/102288264/ba953b52-4f57-4145-97a5-65e79850400a](https://youtu.be/Df01joXrcjY)
