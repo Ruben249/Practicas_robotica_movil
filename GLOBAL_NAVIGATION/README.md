@@ -21,28 +21,19 @@ Luckily, in another subject of this degree, artificial intelligent, we have seen
 
 Here I leave a small part of my star algorithm that we saw in class
 ```python
-def astar(start, target, obstacles, map_data):
-    while priority_queue:
-        cost, current = heapq.heappop(priority_queue)
+def update_grid_with_values(priority_queue, current_item, grid):
+    """Update the grid with the values of the neighbors of the current item."""
+    current_x, current_y = current_item[1]
+    current_value = current_item[0]
+    # Define the directions to search for neighbors
+    directions = [(0, 1), (0, -1), (1, 0), (-1, 0), (1, 1), (-1, -1), (1, -1), (-1, 1)]
 
-        if current == target:
-            break
-
-        if current in visited_cells:
-            continue
-
-        visited_cells.add(current)
-
-        neighbors = get_neighbors(current, rows, cols)
-
-        for neighbor in neighbors:
-            if neighbor in obstacle_coordinates:
-            else:
-
-            if neighbor not in visited_cells:
-
-    path = reconstruct_path(start, target, visited_cells)
-    return path
+    for dx, dy in directions:
+        neighbor_x, neighbor_y = current_x + dx, current_y + dy
+        # Check if the neighbor is within the grid and if it is not an obstacle
+        if 0 <= neighbor_x < 400 and 0 <= neighbor_y < 400 and grid[neighbor_y][neighbor_x] == -1 and map_image[neighbor_y][neighbor_x] != 0:
+        ...
+        ...
 ```
 #### Development
 Development Challenges
@@ -55,6 +46,10 @@ Solution: Careful attention was needed to ensure consistency between the grid co
 
 ![MAP](https://github.com/Ruben249/practicas_robotica_movil/assets/102288264/548ae3d8-1454-4247-a7fa-faa4baa5eaa4)
 
+-Normalize Map Challenge:
+Problem: My main problem when dealing with this practice has been being able to normalize the real values ​​with those on the map.
+
+Solution: The solution to normalize the values ​​is to take into account where the car is with respect to the map and its center.
 
 -Obstacle Avoidance Challenge:
 
@@ -67,21 +62,13 @@ Solution: Tuning the obstacle weights was crucial for achieving smooth navigatio
 Problem: The robot struggled to approach the target accurately, either overshooting or getting stuck near the destination.
 
 Solution: Fine-tuning the parameters related to target approach was necessary. Adjusting the speed, turning radius, or control gains during the final approach phase helped achieve a more precise and controlled arrival at the target. Failure to fine-tune these parameters could result in erratic or suboptimal behavior during the final stages of navigation.
+
 ![Path](https://github.com/Ruben249/practicas_robotica_movil/assets/102288264/426920ed-b337-45eb-97db-9a2023d15c7b)
 
 
-
-With the checkTarget function we check if we have reached the target and the program ends
-```python
-def checkTarget(target, error=0.5):
-    # Check if the robot is close to the target
-    # ...
-    return result
-```
-
 ### Conclusion
-Developing a robust path planning algorithm involves addressing various challenges related to map representation, obstacle avoidance, and real-world interfacing. The A* algorithm, with proper tuning and integration, proves to be a reliable solution for mobile robot navigation.
+Developing a robust route planning algorithm involves addressing several challenges related to mapping, obstacle avoidance, and real-world interface. The A* algorithm, with proper tuning and integration, proves to be a reliable solution for mobile robot navigation, as it allows us to check neighboring nodes and whether or not it would be a good idea to pass by them.
 
 
 Below I attach a short video of how my program works:
-https://youtu.be/ahlBfqgEtNw
+[https://youtu.be/ahlBfqgEtNw](https://youtu.be/RDO-zG-OfKA)
