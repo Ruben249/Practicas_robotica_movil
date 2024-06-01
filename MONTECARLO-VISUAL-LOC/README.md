@@ -107,6 +107,8 @@ def compute_particle_weights(particles):
     weights = np.random.rand(particles.shape[0])
     return weights
 ```
+It should be noted that this is the function that was provided to us and I have modified it so that it calculates the weights using the Euclidean distance.
+
 Here is a video where we briefly see how the robot behaves:
 
 [https://github.com/Ruben249/practicas_robotica_movil/assets/102288264/ba953b52-4f57-4145-97a5-65e79850400a](https://youtu.be/Df01joXrcjY)
