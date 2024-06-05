@@ -178,5 +178,4 @@ def getLaserData(particle):
 The biggest difficulties that I have encountered in this practice have been knowing which functions to take, which ones to modify and being able to compare the robot laser data with that of the particles, since we had to use a function that allowed us to go from the simulated laser to a more realistic one. Once done, making the Euclidean distance of both has been quite simple for me.
 
 Here is a video where we briefly see how the robot behaves:
-
-https://youtu.be/F8PqM433ETM
+(https://youtube.com/shorts/s-XAeOmATE8?feature=share)
