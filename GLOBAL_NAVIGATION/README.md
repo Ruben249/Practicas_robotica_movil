@@ -54,7 +54,7 @@ Solution: The solution to normalize the values ​​is to take into account whe
 
 #### Erratic Deviations and Unstable Movements
 
-Problem: Searching for the position with the lowest value is performed in an 11x11 area around the robot. However, the size of the grid and the resolution of the movements can cause the robot to move erratically and with sudden oscillations.
+Problem: Searching for the position with the lowest value is performed in an 6x6 area around the robot. However, the size of the grid and the resolution of the movements can cause the robot to move erratically and with sudden oscillations.
 
 Solution: Reducing the size of the search area or smoothing the transition between cells with different values ​​can improve motion stability. Additionally, adjusting the linear and angular speed of the robot based on the distance and angle to the new position can contribute to smoother navigation.
 
@@ -64,13 +64,6 @@ Problem: The algorithm exhibited erratic behavior around obstacles, sometimes ge
 
 Solution: Tuning the obstacle weights was crucial for achieving smooth navigation. If obstacle weights were too low, the robot might collide with obstacles, while excessively high weights could lead to overly cautious navigation. Striking the right balance ensured effective obstacle avoidance without unnecessary deviations.
 
-#### Target Approach Challenge:
-
-Problem: The car struggled to approach the target accurately, either overshooting or getting stuck near the destination.
-
-Solution: Fine-tuning the parameters related to target approach was necessary. Adjusting the speed, turning radius, or control gains during the final approach phase helped achieve a more precise and controlled arrival at the target. Failure to fine-tune these parameters could result in erratic or suboptimal behavior during the final stages of navigation.
-
-![Path](https://github.com/Ruben249/practicas_robotica_movil/assets/102288264/426920ed-b337-45eb-97db-9a2023d15c7b)
 
 #### Angle Calculation
 
