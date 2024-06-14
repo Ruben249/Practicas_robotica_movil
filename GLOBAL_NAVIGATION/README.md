@@ -94,3 +94,6 @@ Developing a robust route planning algorithm involves addressing several challen
 Below I attach a short video of how my program works:
 
 [https://youtu.be/ahlBfqgEtNw](https://youtu.be/RDO-zG-OfKA)
+
+Note:
+When testing it, keep in mind that it takes about 40 seconds until the grid is displayed
